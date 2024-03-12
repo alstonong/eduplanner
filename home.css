@@ -1,0 +1,176 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Times New Roman', Times, serif;
+}
+
+body, html {
+    background-color: rgb(33, 33, 33);
+    height: 100%;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 80px;
+    background-color: rgb(22, 22, 22);
+    padding: 0.4rem 0.8rem;
+    transition: all 0.5s ease;
+    z-index: 999;
+}
+
+.sidebar.active {
+    width: 225px;
+}
+
+.user-img {
+    width: 40px;
+    border-radius: 100%;
+    border: 1px solid #000000;
+    margin-right: 10px;
+}
+
+#user-icon {
+    margin-top: auto;
+}
+
+.sidebar p {
+    opacity: 0
+}
+
+.sidebar.active p {
+    opacity: 1;
+}
+
+.sidebar ul li {
+    position: relative;
+    list-style-type: none;
+    height: 50px;
+    width: 90%;
+    margin: 0.8rem auto;
+    line-height: 50px;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    display: flex;
+    border-radius: 0.6rem;
+    align-items: center;
+    text-decoration: none;
+}
+
+.sidebar ul li i:hover {
+    background-color: rgb(150, 150, 150, 0.1);
+    color: #ffffff;
+}
+
+.sidebar.active ul li i:hover {
+    background-color: transparent;
+}
+
+.sidebar.active ul li a:hover {
+    background-color: rgb(150, 150, 150, 0.1);
+    color: #ffffff;
+}
+
+.sidebar ul li a i {
+    min-width: 50px;
+    text-align: center;
+    height: 50px;
+    border-radius: 12px;
+    line-height: 50px;
+}
+
+.sidebar .nav-text {
+    opacity: 0;
+    display: none;
+}
+
+.sidebar.active .nav-text {
+    opacity: 1;
+    display: block;
+}
+
+.content {
+    position: relative;
+    height: 100vh;
+    width: calc(100% - 80px);
+    left: 80px;
+    transition: all 0.5s ease;
+    padding: 1rem;
+}
+
+#intro {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.6rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    width: 90%;
+    max-height: 90%;
+    justify-content: center;
+    align-items: center;
+}
+
+#intro img {
+    display: flex;
+    width: 100rem;
+}
+
+.inner-intro h1 {
+    display: flex;
+    font-size: 6vw;
+}
+
+@media screen and (max-width: 800px) {
+    .inner-intro h1{
+        font-size: 8vw;
+    }
+}
+
+.inner-intro p {
+    font-size: 3.3vw;
+    font-variant: small-caps;
+}
+
+@media screen and (max-width: 800px) {
+    .inner-intro p{
+        font-size: 4.4vw;
+    }
+}
+
+.inner-intro {
+    border-radius: 2rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #ffffff;
+    padding: 5px;
+    position: absolute;
+    top: 10%;
+    left: 5%;
+}
+
+::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(0, 0, 0); 
+    border-radius: 3rem;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #ffffff; 
+    border-radius: 3rem;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+
+

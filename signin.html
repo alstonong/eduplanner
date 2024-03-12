@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Eduplanner Login</title>
+        <link rel="stylesheet" href="signin.css">
+    </head>
+    <body>
+        <div class="background"></div>
+        <div class="full-container">
+            <div class="image-container">
+                <img src="studentRoomStudy.jpg">
+                <span>Welcome to Eduplanner</span>
+            </div>
+            <div class="login-container">
+                <span class="login-head">Log In</span>
+                <form id="signinForm" action="" method="post">
+                    <div class="name">
+                        <input type="text" id="nameOrEmail" placeholder="Name or E-mail" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this, 'Name or E-mail')" required>                    </div>
+                    <div class="pw">
+                        <input type="password" id="password" placeholder="Password" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this, 'Password')" required>
+                    </div>
+                    <div class="loginacc">
+                        <input type="submit" id="loginaccbutton" value="Log In">
+                    </div>
+                </form>
+                <hr>
+                <div class="signup">
+                    <span>Create new account</span>
+                    <a href="signup.html">Sign up</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const clearPlaceholder = (element) => {
+                element.placeholder = "";
+            };
+
+            const restorePlaceholder = (element, defaultPlaceholder) => {
+                if (!element.value) {
+                    element.placeholder = defaultPlaceholder;
+                }
+            };
+        </script>
+
+        <script>
+            const accounts = JSON.parse(sessionStorage.getItem('accounts'));
+
+            document.getElementById('signinForm').addEventListener('submit', function(event) {
+                const enteredNameOrEmail = document.getElementById('nameOrEmail').value;
+                const enteredPassword = document.getElementById('password').value;
+
+                const matchedAccountIndex = accounts.findIndex(account =>
+                    (account.name === enteredNameOrEmail || account.email === enteredNameOrEmail) &&
+                    account.password === enteredPassword
+                );
+
+                if (matchedAccountIndex !== -1) {
+                    event.preventDefault();
+                    accounts[matchedAccountIndex].signedIn = true;
+                    sessionStorage.setItem('accounts', JSON.stringify(accounts));
+                    window.location.href = 'home.html';
+                } else {
+                    event.preventDefault();
+                    alert('Invalid username, email or password. Please try again.');
+                }
+            });
+        </script>
+    </body>
+</html>

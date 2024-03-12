@@ -1,0 +1,109 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Eduplanner Login</title>
+        <link rel="stylesheet" href="signup.css">
+    </head>
+    <body>
+        <div class="background"></div>
+        <div class="full-container">
+            <div class="image-container">
+                <img src="studentRoomStudy.jpg">
+                <span>Welcome to Eduplanner</span>
+            </div>
+            <div class="login-container">
+                <span class="login-head">Create account</span>
+                <form id="signupForm" action="" method="post">
+                    <div class="name">
+                        <input type="text" id="name" placeholder="Username" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this, 'Username')" required>
+                    </div>
+                    <div class="email">
+                        <input type="email" id="email" placeholder="E-mail" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this, 'E-mail')" required>
+                    </div>
+                    <div class="pw">
+                        <input type="password" id="password" placeholder="Password" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this, 'Password')" required>
+                    </div>
+                    <div class="pwConfirmation">
+                        <input type="password" id="confirmPw" placeholder="Confirm password" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this, 'Confirm password')" required>
+                    </div>
+                    <div class="createacc">
+                        <input type="submit" id="createaccbutton" value="Create Account">
+                    </div>
+                </form>
+                <hr>
+                <div class="signin">
+                    <span>Log in to your existing account</span>
+                    <a href="signin.html">Sign in</a>
+                </div>
+            </div>
+        </div>
+        <script>
+            const clearPlaceholder = (element) => {
+                element.placeholder = "";
+            };
+
+            const restorePlaceholder = (element, defaultPlaceholder) => {
+                if (!element.value) {
+                    element.placeholder = defaultPlaceholder;
+                }
+            };
+
+            const resetFormPlaceholders = () => {
+                document.getElementById('name').placeholder = 'Username';
+                document.getElementById('email').placeholder = 'E-mail';
+                document.getElementById('password').placeholder = 'Password';
+                document.getElementById('confirmPw').placeholder = 'Confirm password';
+            };
+        </script>
+
+        <script>
+            const accounts = JSON.parse(sessionStorage.getItem('accounts')) || [];
+
+            document.getElementById('signupForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirmPw = document.getElementById('confirmPw').value;
+
+                if (accounts.some(account => account.email === email)) {
+                    alert("Email already exists. Please use a different email.");
+                    return;
+                }
+
+                if (accounts.some(account => account.name === name)) {
+                    alert("Userame already exists. Please choose a different name.");
+                    return;
+                }
+
+                if (password !== confirmPw) {
+                    alert("Passwords do not match!");
+                    return;
+                }
+
+                    const newAccount = {
+                        name,
+                        email,
+                        password,
+                        signedIn: false,
+                        semester: "Enter your semester here (doesn't affect other values)",
+                        firstDay: null,
+                        lastDay: null,
+                        daysLeft: null,
+                        subjects: [],
+                        progressTotalHours: 0,
+                        progressHoursDone: 0,
+                        events: []
+                    };
+
+                accounts.push(newAccount);
+                sessionStorage.setItem('accounts', JSON.stringify(accounts));
+                resetFormPlaceholders();
+                document.getElementById('signupForm').reset();
+                console.log(accounts);
+            });
+        </script>
+    </body>
+</html>

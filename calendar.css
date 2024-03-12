@@ -1,0 +1,234 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Times New Roman', Times, serif;
+}
+
+#cal-extract {
+    display: flex;
+    font-size: 0.917rem;
+    margin-top: 5rem;
+    margin-left: 2rem;
+    width: 90%;
+    overflow-x: scroll;
+}
+
+.cal-event {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(0, 0, 0, 0.6);
+    color: rgb(248, 221, 164);
+    background-position: center center;
+    border-radius: 0.5rem;
+    width: 15rem;
+    padding: 2px;
+    align-items: center;
+    user-select: none;
+}
+
+.cal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 10.6rem;
+    width: 65rem;
+    background-image: url(polarLights.jpg);
+    color: rgb(248, 221, 164);
+    padding: 10px;
+    border-radius: 0.5rem;
+}
+
+.event-day {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 28px;
+}
+
+#current-event-date {
+    font-size: 4.7rem;
+}
+
+#current-event-day {
+    font-size: 2.1rem;
+}
+
+.date-info {
+    display: flex;
+    width: 70px;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.daily-events {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: auto;
+    line-height: 2rem;
+    width: 15rem;
+    align-items: center;
+}
+
+.daily-events span {
+    font-size: 1.5rem;
+}
+
+.daily-events .events li {
+    width: 13rem;
+    overflow-wrap: break-word;
+}
+
+.new-event {
+    font-size: 1.2rem;
+    width: 15rem;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    padding: 15px;
+}
+
+.new-event:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.days {
+    display: flex;
+}
+
+.full-cal {
+    display: flex;
+    flex-direction: column;
+}
+
+.year {
+    font-size: 3.1rem;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    transform: translateX(170%);
+    cursor: default;
+}
+
+.year span {
+    margin: 0 10px;
+}
+
+.month {
+    display: flex;
+    width: 61.5rem;
+}
+
+.month ul {
+    width: 100%;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    justify-content: space-between;
+}
+
+.month li {
+    display: flex;
+    font-size: 1.6rem;
+    justify-content: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5rem;
+    cursor: default;
+}
+
+.month li:hover {
+    opacity: 0.3;
+}
+
+#current-month {
+    opacity: 0.3;
+}
+
+hr {
+    z-index: 100;
+    border: 1px solid rgb(248, 221, 164);
+    height: 0.5px;
+    margin: 3px 0;
+    width: 100%;
+}
+
+.week {
+    display: flex;
+    width: 60rem;
+}
+
+.week ul {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    justify-content: space-between;
+}
+
+.week li {
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: default;
+}
+
+.week li:hover {
+    opacity: 0.3;
+}
+
+#current-day {
+    opacity: 0.3;
+}
+
+.days {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    font-size: 1.8rem;
+    color: rgb(248, 221, 164);
+    background-image: url(forestSunset.jpg);
+    border-radius: 0.5rem;
+    width: 65rem;
+    box-sizing: border-box;
+}
+
+.days ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+.days li {
+    justify-content: center;
+    align-items: center;
+    width: calc(14.28% - 0.1rem);
+    border-radius: 0.5rem;
+    padding: 25px;
+    display: flex;
+    list-style: none;
+    user-select: none;
+}
+
+.days li:hover:not(.fade) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.fade {
+    color: rgb(248, 221, 164, 0.15);
+}
+
+.events {
+    height: 10rem;
+    width: 12rem;
+}
+

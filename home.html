@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+        <link rel="stylesheet" href="home.css">
+        <link rel="stylesheet" href="calendar.css">
+        <link rel="stylesheet" href="settings.css">
+        <link rel="stylesheet" href="report.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+    <body>
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a id="menu">
+                        <i class="bx bxs-book-content"></i>
+                        <span class="nav-text">Menu</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#intro">
+                        <i class="bx bxs-home-alt-2"></i>
+                        <span class="nav-text">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#cal-extract">
+                        <i class="bx bxs-calendar"></i>
+                        <span class="nav-text">Calendar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#report">
+                        <i class="bx bxs-report"></i>
+                        <span class="nav-text">Summary</span>
+                    </a>
+                </li>
+                <li>
+                    <a onclick="openSettings()">
+                        <i class="bx bxs-cog"></i>
+                        <span class="nav-text">Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a onclick="signOut()">
+                        <i class="bx bxs-log-out-circle"></i>
+                        <span class="nav-text">Sign Out</span>
+                    </a>
+                </li>
+                <li id="user-icon">
+                    <a href="#" class="user-tab">
+                        <img src="blankProfile.png" alt="user-image" class="user-img">
+                        <span class="nav-text">Username</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="settingsOverlay" onclick="closeSettings()"></div>
+        <div id="settings">
+            <div class="settings-content">
+                <div class="settings">
+                    <h1>Settings</h1>
+                    <form class="profile">
+                        <div class="username">
+                            <label>Change username</label>
+                            <input type="text" id="username">
+                        </div>
+                        <div class="email">
+                            <label>Change email</label>
+                            <input type="email" id="email">             
+                        </div>
+                        <div class="newpw">   
+                            <label>Change password</label>
+                            <input type="password" id="pw">    
+                        </div>
+                        <div class="confnewpw">             
+                            <label>Confirm new password</label>
+                            <input type="password" id="confpw">
+                        </div>
+                    </form>
+                    <div class="toggle">
+                        <div>
+                            <label>Receive notifications</label>
+                            <input type="range" id="notif" min="0" max="1" step="1">
+                        </div>
+                        <div>
+                            <label>Dark mode</label>
+                            <input type="range" id="dark" min="0" max="1" step="1">
+                        </div>
+                    </div>
+                    <div class="select">
+                        <label>Language</label>
+                        <select id="language">
+                            <option value="en">English</option>
+                            <option value="de">German</option>
+                        </select>
+                    </div>  
+                    <button type="button" id="saveSettings" onclick="saveSettings()">Save Settings</button>
+                    <button type="button" onclick="closeSettings()">Close Settings</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="newEventOverlay" onclick="closeNewEvent()"></div>
+        <div id="newEventContainer">
+            <h1>Add new event</h1>
+            <form class="eventForm">
+                <div class="subjectEvent">
+                    <label>Subject *</label>
+                    <input type="text" id="subjectLabel">
+                </div>
+                <div class="eventDuration">
+                    <label>Hours done *</label>
+                    <input type="number" id="eventDuration" placeholder="Enter hours worked" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this, 'Enter hours worked')">
+                </div>
+            </form>
+            <button type="button" id="saveEvent" onclick="saveNewEvent()">Save Event</button>
+            <button type="button" onclick="closeNewEvent()">Cancel</button>
+        </div>
+
+        <div id="newSubjectOverlay" onclick="closeNewSubject()"></div>
+        <div id="newSubjectContainer">
+            <h1>Add new subject</h1>
+            <form class="newSubjectForm">
+                <div class="newSubject">
+                    <label>Subject *</label>
+                    <input type="text" id="newSubject" required>
+                </div>
+                <div class="eventDuration">
+                    <label>Hours required *</label>
+                    <input type="number" id="newSubjectHours" required>
+                </div>
+                <div class="eventDuration">
+                    <label>Hours completed</label>
+                    <input type="number" id="newSubjectHoursDone">
+                </div>
+            </form>
+            <button type="button" id="saveEvent" onclick="saveNewSubject()">Add</button>
+            <button type="button" onclick="closeNewSubject()">Cancel</button>
+        </div>
+
+        <div class="content">
+            <div id="intro">
+                <img src="introImg.jpg">
+                <div class="inner-intro">
+                    <h1>EDUPLANNER</h1>
+                    <p>a student scheduling webapp</p>
+                </div>
+            </div>
+
+            <div id="cal-extract">
+                <div class="cal-event">
+                    <div class="event-day">
+                        <div class="date-info">
+                            <span id="current-event-date">20</span>
+                            <span id="current-event-day">Mon</span>
+                        </div>
+                    </div>
+                    <div class="daily-events">
+                        <span>Recently saved events</span>
+                        <ol class="events"></ol>
+                    </div>
+                    <div class="new-event">
+                        <a onclick="openNewEvent()">
+                            <i class="bx bxs-calendar-plus"></i>
+                            <span>Add new event</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="full-cal">
+                    <div class="cal-header">
+                        <div class="year">
+                            <span id="current-year"></span>
+                        </div>
+                        <div class="month">
+                            <ul>
+                                <li onclick="selectMonth(0)">Jan</li>
+                                <li onclick="selectMonth(1)">Feb</li>
+                                <li onclick="selectMonth(2)">Mar</li>
+                                <li onclick="selectMonth(3)">Apr</li>
+                                <li onclick="selectMonth(4)">May</li>
+                                <li onclick="selectMonth(5)">Jun</li>
+                                <li onclick="selectMonth(6)">Jul</li>
+                                <li onclick="selectMonth(7)">Aug</li>
+                                <li onclick="selectMonth(8)">Sep</li>
+                                <li onclick="selectMonth(9)">Oct</li>
+                                <li onclick="selectMonth(10)">Nov</li>
+                                <li onclick="selectMonth(11)">Dec</li>
+                            </ul>
+                        </div>
+                        <hr>
+                        <div class="week">
+                            <ul>
+                                <li>Sun</li>
+                                <li>Mon</li>
+                                <li>Tue</li>
+                                <li>Wed</li>
+                                <li>Thu</li>
+                                <li>Fri</li>
+                                <li>Sat</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="days"></div>
+                </div>
+            </div>
+            
+            <div id="report">
+                <table class="semester-table">
+                    <tr>
+                        <th>Semester</th>
+                        <td contenteditable="true" id="semesterCell" onkeydown="handleSemesterKeydown(event)" onblur="updateSemesterDisplay()">-</td>
+                    </tr>
+                    <tr>
+                        <th>First Day</th>
+                        <td><input type="date" id="firstDay" onchange="saveDate('firstDay')"></td>
+                    </tr>
+                    <tr>
+                        <th>Last Day</th>
+                        <td><input type="date" id="lastDay" onchange="saveDate('lastDay')"></td>
+                    </tr>
+                    <tr>
+                        <th>Days Left</th>
+                        <td id="daysLeftCell">-</td>
+                    </tr>
+                </table>
+                <table class="semester-subject">
+                    <tr>
+                        <th>Subject</th>
+                        <th>Hours Required</th>
+                        <th>Hours Completed</th>
+                        <th>Hours Left</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td id="addSubject" colspan="5" onclick="openNewSubject()">
+                            <i class="bx bxs-plus-circle"></i>
+                            Add subject
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-label">Work progress</div>
+                <div class="progress-bar"></div>
+            </div>
+        </div>      
+        
+        <script>
+            const sidebar = document.querySelector('.sidebar'),
+                toggleSidebar = () => {
+                    sidebar.classList.toggle('active');
+                }
+        
+            menu.onclick = () => {
+                if (window.innerWidth >= 800) {
+                    toggleSidebar();
+                }
+            };
+        </script>
+        
+        <script>
+            const daysDiv = document.querySelector('.days'),
+            selectedYear = document.getElementById('current-year'),
+            selectedDate = document.getElementById('current-event-date'),
+            selectedDay = document.getElementById('current-event-day'),
+            selectedMonth = document.getElementById('current-month'),
+            daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+            let currentDate = new Date(),
+            currentYear = currentDate.getFullYear(),
+            currentMonth = currentDate.getMonth();
+            
+            selectedYear.textContent = currentYear;
+
+            const generateDays = (month) => {
+                currentMonth = month;
+                const firstDayofMonth = new Date(currentYear, currentMonth, 1).getDay();
+                const lastDateofMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                const lastDateofPreviousMonth = new Date(currentYear, currentMonth, 0).getDate();
+        
+                let currentRow = [];
+                let daysList = '';
+        
+                for (let i = firstDayofMonth; i > 0; i--) {
+                    currentRow.push(`<li class='fade' class='day-cell' onclick='selectDay(${lastDateofPreviousMonth - i + 1})'>${lastDateofPreviousMonth - i + 1}</li>`);
+                }
+        
+                for (let i = 1; i <= lastDateofMonth; i++) {
+                    let today = '';
+                    if (i === currentDate.getDate() && currentMonth === new Date().getMonth() && currentYear === new Date().getFullYear()) {
+                        today = 'today';
+                    }
+                    currentRow.push(`<li class='${today}' class='day-cell' onclick='selectDay(${i})'>${i}</li>`);
+        
+                    if (currentRow.length === 7) {
+                        daysList += `<ul>${currentRow.join('')}</ul>`;
+                        currentRow = [];
+                    }
+                }
+        
+                let remainingFadedDays = 7 - currentRow.length;
+                for (let i = 1; i <= remainingFadedDays; i++) {
+                    currentRow.push(`<li class='fade' class='day-cell' onclick='selectDay(${i})'>${i}</li>`);
+                }
+        
+                if (currentRow.length > 0) {
+                    daysList += `<ul>${currentRow.join('')}</ul>`;
+                }
+        
+                daysDiv.innerHTML = daysList;
+            };
+        
+            const selectDay = (day) => {
+                currentDate.setDate(day);
+                selectedDate.textContent = currentDate.getDate();
+                selectedDay.textContent = daysOfWeek[currentDate.getDay()];
+                showDailyEvents(); 
+            };
+        
+            const selectMonth = (month) => {
+                generateDays(month);
+            };
+        
+            const getMonthName = (month) => {
+                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                return monthNames[month];
+            };
+
+            generateDays(currentMonth);
+        </script>      
+        
+        <script>
+            const openSettings = () => {
+                document.getElementById('settings').classList.add('active');
+                document.getElementById('settingsOverlay').classList.add('active');
+            }
+        
+            const closeSettings = () => {
+                document.getElementById('settings').classList.remove('active');
+                document.getElementById('settingsOverlay').classList.remove('active');
+            }
+        </script>  
+        
+        <script>
+            const openNewEvent = () => {
+                document.getElementById('newEventContainer').classList.add('active');
+                document.getElementById('newEventOverlay').classList.add('active');
+            }
+
+            const closeNewEvent = () => {
+                document.getElementById('newEventContainer').classList.remove('active');
+                document.getElementById('newEventOverlay').classList.remove('active');
+            }
+        </script>
+
+        <script>
+            const openNewSubject = () => {
+                document.getElementById('newSubjectContainer').classList.add('active');
+                document.getElementById('newSubjectOverlay').classList.add('active');
+            }
+
+            const closeNewSubject = () => {
+                document.getElementById('newSubjectContainer').classList.remove('active');
+                document.getElementById('newSubjectOverlay').classList.remove('active');
+            }
+        </script>
+
+        <script>
+            const storedAccounts = JSON.parse(sessionStorage.getItem('accounts')) || [];
+
+            const findSignedInAccount = () => {
+                return storedAccounts.find(account => account.signedIn === true);
+                };
+
+                const signedInAccount = findSignedInAccount();
+
+            const updateSemesterDisplay = () => {
+                const semesterCell = document.getElementById('semesterCell');
+                const firstDayInput = document.getElementById('firstDay');
+                const lastDayInput = document.getElementById('lastDay');
+                const daysLeftCell = document.getElementById('daysLeftCell');
+
+                if (signedInAccount) {
+                    semesterCell.textContent = signedInAccount.semester;    
+                    firstDayInput.value = signedInAccount.firstDay || '';
+                    lastDayInput.value = signedInAccount.lastDay || '';
+                    const daysLeft = calculateDaysLeft(signedInAccount.firstDay, signedInAccount.lastDay);
+                    daysLeftCell.textContent = daysLeft;
+                    const subjects = signedInAccount.subjects;
+                    displaySubjectsTable(signedInAccount.subjects);
+                } else {
+                    console.error('No signed-in account found.');
+                }
+            };
+
+            const displaySubjectsTable = (subjects) => {
+                const table = document.querySelector(".semester-subject");
+
+                while (table.rows.length > 1) {
+                    table.deleteRow(1);
+                }
+
+                subjects.forEach(subject => {
+                    const newRow = table.insertRow();
+                    const cell1 = newRow.insertCell(0);
+                    const cell2 = newRow.insertCell(1);
+                    const cell3 = newRow.insertCell(2);
+                    const cell4 = newRow.insertCell(3);
+                    const cell5 = newRow.insertCell(4);
+
+                    cell1.innerHTML = subject.name;
+                    cell2.innerHTML = subject.hoursRequired;
+                    cell3.innerHTML = subject.hoursDone;
+
+                    const requiredHours = parseInt(subject.hoursRequired);
+                    const doneHours = parseInt(subject.hoursDone);
+
+                    const hoursLeft = requiredHours - doneHours;
+                    cell4.innerHTML = hoursLeft;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.innerHTML = 'Delete';
+                    deleteButton.className = 'deletebtn';
+                    deleteButton.onclick = () => deleteSubject(subject.name);
+                    cell5.appendChild(deleteButton);
+                });
+
+                const addSubjectRow = table.insertRow();
+                const addSubjectCell = addSubjectRow.insertCell(0);
+                addSubjectCell.colSpan = 5;
+                addSubjectCell.innerHTML = '<i class="bx bxs-plus-circle"></i> Add subject';
+                addSubjectCell.onclick = openNewSubject;
+            };
+
+            const saveDate = (dateType) => {
+                const dateInput = document.getElementById(dateType);
+
+                if (signedInAccount) {
+                    signedInAccount[dateType] = dateInput.value;
+                    sessionStorage.setItem('accounts', JSON.stringify(storedAccounts));
+                    console.log(`${dateType} saved:`, signedInAccount);
+                    updateSemesterDisplay();
+                } else {
+                    console.error('No signed-in account found.');
+                }
+            };
+
+            const calculateDaysLeft = (firstDay, lastDay) => {
+                if (firstDay && lastDay) {
+                    const firstDate = new Date(firstDay);
+                    const lastDate = new Date(lastDay);
+                    if (lastDate < firstDate) {
+                        return 'Error: Last Day should be on or after First Day';
+                    }
+                    const oneDay = 24 * 60 * 60 * 1000;
+                    const diffDays = Math.round((lastDate - firstDate) / oneDay);
+                    return diffDays;
+                } else {
+                    return '-';
+                }
+            };
+
+            const saveSemesterContent = () => {
+                const semesterCell = document.getElementById('semesterCell');
+
+                if (signedInAccount) {
+                    signedInAccount.semester = semesterCell.textContent.trim();
+                    sessionStorage.setItem('accounts', JSON.stringify(storedAccounts));
+                    console.log('Semester content saved:', signedInAccount);
+                    updateSemesterDisplay();
+                } else {
+                    console.error('No signed-in account found.');
+                }
+            };
+
+            const handleSemesterKeydown = (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    saveSemesterContent();
+                }
+            };
+
+            const saveNewSubject = () => {
+                const newSubjectName = document.getElementById("newSubject").value;
+                const newSubjectHours = document.getElementById("newSubjectHours").value;
+                const newSubjectHoursDone = document.getElementById("newSubjectHoursDone").value;
+
+                if (!newSubjectName || !newSubjectHours) {
+                    alert('Please fill in both subject name and hours required.');
+                    return;
+                }
+
+                if (signedInAccount) {
+                    let hoursDoneValue;
+                    if (newSubjectHoursDone !== '' && !isNaN(newSubjectHoursDone)) {
+                        hoursDoneValue = newSubjectHoursDone;
+                    } else {
+                        hoursDoneValue = '0';
+                    }
+
+                    signedInAccount.subjects.push({
+                        name: newSubjectName,
+                        hoursRequired: newSubjectHours,
+                        hoursDone: hoursDoneValue
+                    });
+
+                    sessionStorage.setItem('accounts', JSON.stringify(storedAccounts));
+                    console.log('New subject added:', signedInAccount);
+                    updateSubjectTable(newSubjectName, newSubjectHours, hoursDoneValue);
+                    updateProgressBar();
+                } else {
+                    console.error('No signed-in account found.');
+                }
+
+                document.getElementById("newSubject").value = "";
+                document.getElementById("newSubjectHours").value = "";
+                document.getElementById("newSubjectHoursDone").value = "";
+                closeNewSubject();
+            };
+
+            const updateSubjectTable = (name, hoursRequired, hoursDone) => {
+                const table = document.querySelector(".semester-subject");
+                const newRow = table.insertRow(table.rows.length - 1);
+                const cell1 = newRow.insertCell(0);
+                const cell2 = newRow.insertCell(1);
+                const cell3 = newRow.insertCell(2);
+                const cell4 = newRow.insertCell(3);
+                const cell5 = newRow.insertCell(4);
+
+                cell1.innerHTML = name;
+                cell2.innerHTML = hoursRequired;
+                cell3.innerHTML = hoursDone;
+
+                const requiredHours = parseInt(hoursRequired);
+                const doneHours = parseInt(hoursDone);
+
+                const hoursLeft = requiredHours - doneHours;
+                cell4.innerHTML = hoursLeft;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.innerHTML = 'Delete';
+                deleteButton.className = 'deletebtn';
+                deleteButton.onclick = () => deleteSubject(name);
+                cell5.appendChild(deleteButton);
+            };
+
+            const deleteSubject = (subjectName) => {
+                if (signedInAccount) {
+                    signedInAccount.subjects = signedInAccount.subjects.filter(subject => subject.name !== subjectName);
+                    sessionStorage.setItem('accounts', JSON.stringify(storedAccounts));
+                    updateSemesterDisplay();
+                    updateProgressBar();
+                    console.log(`Subject "${subjectName}" deleted.`);
+                } else {
+                    console.error('No signed-in account found.');
+                }
+            };
+
+            const updateProgressBar = () => {
+                const signedInAccount = findSignedInAccount();
+
+                if (signedInAccount) {
+                    let totalHoursRequired = 0;
+                    let totalHoursDone = 0;
+
+                    signedInAccount.subjects.forEach(subject => {
+                        totalHoursRequired += parseInt(subject.hoursRequired);
+                        totalHoursDone += parseInt(subject.hoursDone);
+                    });
+
+                    signedInAccount.progressTotalHours = totalHoursRequired;
+                    signedInAccount.progressHoursDone = totalHoursDone;
+                    sessionStorage.setItem('accounts', JSON.stringify(storedAccounts));
+                    const progressContainer = document.querySelector('.progress-container');
+                    const progressBar = document.querySelector('.progress-bar');
+                    const progressLabel = document.querySelector('.progress-label');
+                    const percentage = Math.min((totalHoursDone / totalHoursRequired) * 100, 100);
+                    progressBar.style.width = `${percentage}%`;
+                    progressLabel.textContent = `Work progress: ${percentage.toFixed(2)}%`;
+                } else {
+                    console.error('No signed-in account found.');
+                }
+            };
+
+            const addNewDate = (currentDate) => {
+                if (signedInAccount) {
+                    const existingDate = signedInAccount.events.find(date => date.day === currentDate);
+
+                    if (!existingDate) {
+                        signedInAccount.events.push({
+                            day: currentDate,
+                            events: []
+                        });
+
+                        sessionStorage.setItem('accounts', JSON.stringify(storedAccounts));
+                        console.log('New date added:', signedInAccount);
+                    } else {
+                        console.log('Date already exists.');
+                    }
+                } else {
+                    console.error('No signed-in account found.');
+                }
+            };
+
+            const saveNewEvent = (eventDate) => {
+                const subjectLabel = document.getElementById("subjectLabel").value;
+                const eventDuration = document.getElementById("eventDuration").value;
+
+                if (!subjectLabel || !eventDuration) {
+                    alert('Please fill in both subject and hours done.');
+                    return;
+                }
+
+                console.log('Event Date:', eventDate);
+
+                if (signedInAccount) {
+                    const targetDate = signedInAccount.events.find(date => date.day === currentDate);
+
+                    console.log('Target Date:', targetDate);
+
+                    if (targetDate) {
+                        targetDate.events.push({
+                            name: subjectLabel,
+                            hoursDone: eventDuration
+                        });
+                    } else {
+                        console.log('Creating new date for:', currentDate);
+                        addNewDate(currentDate);
+                        saveNewEvent(eventDate);
+                    }
+
+                    sessionStorage.setItem('accounts', JSON.stringify(storedAccounts));
+                    console.log(JSON.stringify(signedInAccount, null, 2));
+                    updateSubjectTable();
+                    updateSubjectHoursFromEvent(subjectLabel, eventDuration);
+                    showDailyEvents();
+                } else {
+                    console.error('No signed-in account found.');
+                }
+            };
+
+            const showDailyEvents = () => {
+                const dailyEventsContainer = document.querySelector('.daily-events .events');
+                dailyEventsContainer.innerHTML = '';
+
+                if (signedInAccount) {
+                    const targetDate = signedInAccount.events[signedInAccount.events.length - 1];
+
+                    if (targetDate) {
+                        if (targetDate.events.length > 0) {
+                            targetDate.events.forEach(event => {
+                                const listItem = document.createElement('li');
+                                listItem.textContent = `${event.name} - ${event.hoursDone} hours`;
+                                dailyEventsContainer.appendChild(listItem);
+                            });
+                        } else {
+                            const noEventsMessage = document.createElement('li');
+                            noEventsMessage.textContent = 'No events for the selected date.';
+                            dailyEventsContainer.appendChild(noEventsMessage);
+                        }
+                    } else {
+                        const noEventsMessage = document.createElement('li');
+                        noEventsMessage.textContent = 'No events for the selected date.';
+                        dailyEventsContainer.appendChild(noEventsMessage);
+                    }
+                } else {
+                    console.error('No signed-in account found.');
+                }
+            };
+
+            const updateSubjectHoursFromEvent = (eventName, eventHours) => {
+                if (signedInAccount) {
+                    signedInAccount.subjects.forEach(subject => {
+                        if (subject.name === eventName) {
+                            subject.hoursDone = parseInt(subject.hoursDone) + parseInt(eventHours);
+                        }
+                    });
+                    updateSemesterDisplay();
+                    updateProgressBar();
+                    closeNewEvent();
+                    sessionStorage.setItem('accounts', JSON.stringify(storedAccounts));
+                }
+            };
+
+            showDailyEvents();
+            updateSemesterDisplay();
+            updateProgressBar();
+        </script>
+
+        <script>
+            const signOut = () => {
+                const storedAccounts = JSON.parse(sessionStorage.getItem('accounts')) || [];
+
+                storedAccounts.forEach(account => {
+                    account.signedIn = false;
+                });
+
+                sessionStorage.setItem('accounts', JSON.stringify(storedAccounts));
+                window.location.href = 'signin.html';
+            }
+        </script>
+
+        <script>
+            const clearPlaceholder = (element) => {
+                element.placeholder = "";
+            };
+
+            const restorePlaceholder = (element, defaultPlaceholder) => {
+                if (!element.value) {
+                    element.placeholder = defaultPlaceholder;
+                }
+            };
+        </script>
+    </body>
+</html>
+

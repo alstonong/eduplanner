@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+body, html {
+    background-color: rgb(33, 33, 33);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background {
+    filter: blur(1.5px);
+    background-image: url(blueDeskRoom.png);
+    background-position: center center;
+    background-size: 110rem;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+}
+
+.full-container {
+    display: flex;
+    width: 50rem;
+    height: 30rem;
+    z-index: 5;
+    position: relative;
+}
+
+.image-container, .login-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    border: 0.3rem solid white;
+    position: relative;
+}
+
+.login-container {
+    flex-direction: column;
+    background-color: white;
+    margin-left: -2rem;
+    z-index: 10;
+    justify-content: flex-start;
+    align-items: left;
+}
+
+.image-container {
+    display: flex;
+    background-color: black;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    display: flex;
+    width: 30rem;
+    transform: scaleX(-1);
+}
+
+.image-container span {
+    position: absolute;
+    font-size: 2rem;
+    padding: 0.4rem;
+    -webkit-text-stroke: 1px #000000;
+    background-clip: text;
+    color: rgb(255, 255, 255);
+    margin-bottom: 22rem;
+}
+
+.login-head {
+    display: flex;
+    padding: 2.5rem;
+    font-size: 2.6rem;
+}
+
+.name, .email, .pw, .pwConfirmation, .createacc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    width: 20rem;
+    color: black;
+}
+
+input {
+    width: 16rem;
+    height: 1.8rem;
+    border-radius: 0.4rem;
+    border: 0.1rem solid black;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+}
+
+#createaccbutton {
+    font-size: 1.2rem;
+    font-weight: bold;
+    height: 2.5rem;
+    border-radius: 3rem;
+    background-color: rgb(56, 124, 207);
+}
+
+hr {
+    border: 0.001rem solid black;
+    border-radius: 1000rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 16rem;
+}
+
+.signin span{
+    font-size: 0.97rem;
+    cursor: default;
+}
+.signin a{
+    font-size: 0.9rem;
+    user-select: none;
+    text-decoration: none;
+    color: rgb(56, 124, 207);
+}
